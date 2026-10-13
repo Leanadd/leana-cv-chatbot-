@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Leana Dardano</title>
+<meta name="description" content="Leana Dardano's interactive CV — read the background, then ask her AI agent anything that isn't on the page." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+  :root{
+    --ink:#1b1b1f;
+    --muted:#6f6d66;
+    --paper:#f2f1ec;
+    --surface:#fbfaf7;
+    --line:#ddd9d0;
+    --accent:#8a2740;
+    --accent-contrast:#fbf1f0;
+    --accent-soft:rgba(138,39,64,0.08);
+    --signal:#3c6a4e;
+    --signal-bg:rgba(60,106,78,0.12);
+    --chip-bg:#e7e4db;
+    --shadow:rgba(30,27,20,0.12);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#ece8df;
+      --muted:#9f9c92;
+      --paper:#15161a;
+      --surface:#1b1c21;
+      --line:#33343a;
+      --accent:#d98aa0;
+      --accent-contrast:#1d0e12;
+      --accent-soft:rgba(217,138,160,0.12);
+      --signal:#7fbd9b;
+      --signal-bg:rgba(127,189,155,0.16);
+      --chip-bg:#24252b;
+      --shadow:rgba(0,0,0,0.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#ece8df;
+    --muted:#9f9c92;
+    --paper:#15161a;
+    --surface:#1b1c21;
+    --line:#33343a;
+    --accent:#d98aa0;
+    --accent-contrast:#1d0e12;
+    --accent-soft:rgba(217,138,160,0.12);
+    --signal:#7fbd9b;
+    --signal-bg:rgba(127,189,155,0.16);
+    --chip-bg:#24252b;
+    --shadow:rgba(0,0,0,0.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:clamp(28px,6vw,64px) clamp(18px,5vw,24px) 80px;
+  }
+  h1,h2,h3{
+    font-family:"IBM Plex Serif", Georgia, "Times New Roman", serif;
+    font-weight:600;
+    text-wrap:balance;
+    margin:0;
+  }
+  .mono{
+    font-family:"IBM Plex Mono","SF Mono",Menlo,monospace;
+  }
+  a{color:var(--accent);}
+
+  /* ---------- Header ---------- */
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.72rem;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:14px;
+  }
+  header h1{
+    font-size:clamp(2.3rem,6.5vw,3.3rem);
+    letter-spacing:-0.01em;
+  }
+  .tagline{
+    margin-top:10px;
+    font-size:1.08rem;
+    color:var(--muted);
+    max-width:46ch;
+  }
+  .meta-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 18px;
+    margin-top:22px;
+    font-size:0.82rem;
+  }
+  .meta-row span{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    color:var(--muted);
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--signal);
+    flex:none;
+  }
+  .status-pill{
+    display:inline-flex;align-items:center;gap:7px;
+    background:var(--signal-bg);
+    color:var(--signal);
+    border-radius:999px;
+    padding:5px 12px;
+    font-size:0.78rem;
+    font-family:"IBM Plex Mono",monospace;
+    font-weight:500;
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .status-pill .dot{animation:pulse 2.4s ease-in-out infinite;}
+  }
+  @keyframes pulse{
+    0%,100%{opacity:1;} 50%{opacity:.35;}
+  }
+
+  /* ---------- Sections ---------- */
+  section{margin-top:56px;}
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:10px;
+    margin-bottom:22px;
+  }
+  .section-head h2{font-size:1.3rem;}
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    font-family:"IBM Plex Mono",monospace;
+    white-space:nowrap;
+  }
+
+  .callout{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:4px;
+    padding:20px 22px;
+    font-size:1rem;
+  }
+
+  /* ---------- Capability chips ---------- */
+  .cap-group{margin-bottom:18px;}
+  .cap-group:last-child{margin-bottom:0;}
+  .cap-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.72rem;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:9px;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:var(--chip-bg);
+    border-radius:6px;
+    padding:5px 10px;
+    font-size:0.82rem;
+    font-family:"IBM Plex Mono",monospace;
+    color:var(--ink);
+    white-space:nowrap;
+    text-decoration:none;
+  }
+  a.chip:hover{color:var(--accent);}
+
+  /* ---------- Shipped cards ---------- */
+  .project{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:22px;
+    margin-bottom:16px;
+  }
+  .project.feature{padding:26px;}
+  .project h3{font-size:1.15rem;margin-bottom:8px;}
+  .project p{margin:0 0 10px;font-size:0.95rem;}
+  .project ul{margin:0 0 12px;padding-left:1.1em;font-size:0.92rem;}
+  .project li{margin-bottom:4px;}
+  .mini-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:14px;
+  }
+  .mini-grid .project{margin-bottom:0;}
+  .mini-grid h3{font-size:1rem;}
+  .mini-grid p{font-size:0.88rem;color:var(--muted);}
+
+  /* ---------- Experience ---------- */
+  .job{
+    display:grid;
+    grid-template-columns:118px 1fr;
+    gap:18px;
+    padding:18px 0;
+    border-top:1px solid var(--line);
+  }
+  .job:first-child{border-top:none;padding-top:0;}
+  .job-date{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.76rem;
+    color:var(--muted);
+    padding-top:3px;
+  }
+  .job-date .present{
+    display:inline-block;
+    margin-top:6px;
+    background:var(--signal-bg);
+    color:var(--signal);
+    border-radius:4px;
+    padding:2px 6px;
+    font-size:0.7rem;
+  }
+  .job-role{font-weight:600;font-size:1rem;}
+  .job-org{color:var(--muted);font-size:0.86rem;margin-top:2px;margin-bottom:10px;}
+  .job ul{margin:0;padding-left:1.1em;font-size:0.92rem;}
+  .job li{margin-bottom:5px;}
+  @media (max-width:560px){
+    .job{grid-template-columns:1fr;gap:4px;}
+  }
+
+  /* ---------- Education ---------- */
+  .edu{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:16px;}
+  .edu-item{flex:1 1 260px;}
+  .edu-item h3{font-size:1rem;margin-bottom:4px;}
+  .edu-item p{margin:2px 0;font-size:0.88rem;color:var(--muted);}
+
+  /* ---------- Chat module ---------- */
+  .chat-module{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    box-shadow:0 10px 30px var(--shadow);
+    overflow:hidden;
+  }
+  .chat-head{
+    padding:22px 24px 18px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:14px;
+  }
+  .chat-head h2{font-size:1.3rem;}
+  .chat-sub{font-size:0.85rem;color:var(--muted);margin-top:6px;max-width:42ch;}
+  .lang-toggle{
+    display:flex;
+    border:1px solid var(--line);
+    border-radius:7px;
+    overflow:hidden;
+    flex:none;
+  }
+  .lang-btn{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.74rem;
+    padding:6px 10px;
+    background:transparent;
+    border:none;
+    color:var(--muted);
+    cursor:pointer;
+  }
+  .lang-btn.active{background:var(--accent);color:var(--accent-contrast);}
+  .lang-btn:focus-visible, .chip-btn:focus-visible, .chat-send:focus-visible, .chat-stop:focus-visible, .chat-input:focus-visible{
+    outline:2px solid var(--accent);outline-offset:2px;
+  }
+
+  .chat-thread{
+    padding:20px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    max-height:520px;
+    overflow-y:auto;
+  }
+  .bubble-row{display:flex;flex-direction:column;max-width:88%;}
+  .bubble-row.user{align-self:flex-end;align-items:flex-end;}
+  .bubble-row.assistant{align-self:flex-start;align-items:flex-start;}
+  .bubble-label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.68rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:5px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .bubble{
+    border-radius:12px;
+    padding:11px 14px;
+    font-size:0.93rem;
+    white-space:pre-wrap;
+  }
+  .bubble-row.user .bubble{background:var(--accent);color:var(--accent-contrast);border-bottom-right-radius:4px;}
+  .bubble-row.assistant .bubble{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:4px;}
+  .example-tag{
+    display:inline-block;
+    font-family:"IBM Plex Mono",monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:2px 8px;
+    margin-bottom:14px;
+  }
+  .thinking-dots::after{
+    content:"";
+    display:inline-block;
+    animation:dots 1.3s steps(4) infinite;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .thinking-dots::after{animation:none;content:"…";}
+  }
+  @keyframes dots{
+    0%{content:"";} 25%{content:".";} 50%{content:"..";} 75%{content:"...";}
+  }
+
+  .chips-row{
+    padding:0 24px 16px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip-btn{
+    background:var(--chip-bg);
+    border:1px solid transparent;
+    border-radius:999px;
+    padding:7px 13px;
+    font-size:0.8rem;
+    font-family:"IBM Plex Sans",sans-serif;
+    color:var(--ink);
+    cursor:pointer;
+  }
+  .chip-btn:hover{border-color:var(--accent);}
+
+  .chat-form{
+    border-top:1px solid var(--line);
+    padding:14px 24px 20px;
+    display:flex;
+    gap:10px;
+  }
+  .chat-input{
+    flex:1;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 13px;
+    font-size:0.92rem;
+    font-family:"IBM Plex Sans",sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .chat-send{
+    background:var(--accent);
+    color:var(--accent-contrast);
+    border:none;
+    border-radius:8px;
+    padding:10px 18px;
+    font-size:0.88rem;
+    font-weight:600;
+    cursor:pointer;
+    flex:none;
+  }
+  .chat-send:disabled{opacity:.5;cursor:default;}
+  .chat-stop{
+    background:transparent;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:10px 14px;
+    font-size:0.82rem;
+    color:var(--muted);
+    cursor:pointer;
+    flex:none;
+  }
+  .chat-note{
+    padding:0 24px 18px;
+    font-size:0.8rem;
+    color:var(--muted);
+  }
+  .chat-note.warn{color:var(--accent);}
+  .chat-foot{
+    padding:0 24px 20px;
+    font-size:0.74rem;
+    color:var(--muted);
+  }
+
+  footer{
+    margin-top:64px;
+    padding-top:22px;
+    border-top:1px solid var(--line);
+    font-size:0.85rem;
+    color:var(--muted);
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Product Management · Product Ownership · Business Analysis · Project Management</div>
+    <h1>Leana Dardano</h1>
+    <p class="tagline">Four years turning problems into shipped product across consulting and tech, France ↔ Hong Kong. Open to the right project, product or mission &mdash; sector is secondary to impact.</p>
+    <div class="meta-row">
+      <span class="status-pill"><span class="dot"></span>Open to opportunities</span>
+      <span>📍 Hong Kong</span>
+      <span>⏱ Available in 2 months</span>
+      <span>✉️ dardano.leana@gmail.com</span>
+      <span>📞 +852 6107 9016</span>
+    </div>
+  </header>
+
+  <section>
+    <div class="section-head"><h2>Summary</h2></div>
+    <div class="callout">
+      Four years in consulting and tech between France and Hong Kong. I've worked between business teams and engineers &mdash; identifying needs, framing problems, scoping solutions. I ran a &euro;7M account, and I'm used to making a call and defending it. I also build: LÉIA is a live AI suite for luxury boutique advisors &mdash; a RAG assistant, customer segmentation and sales forecasting &mdash; which I specced, prioritised and shipped myself. Now I want to build with a team.
+    </div>
+  </section>
+
+  <section>
+    <div class="chat-module" id="chatModule">
+      <div class="chat-head">
+        <div>
+          <h2 id="chatTitle">Ask Her Agent</h2>
+          <p class="chat-sub" id="chatSub">Her AI agent &mdash; makes the case, gap by gap, using only what's true.</p>
+        </div>
+        <div class="lang-toggle" role="group" aria-label="Language">
+          <button class="lang-btn active" id="langEn" type="button">EN</button>
+          <button class="lang-btn" id="langFr" type="button">FR</button>
+        </div>
+      </div>
+
+      <div class="chat-thread" id="chatThread">
+        <div class="bubble-row assistant">
+          <span class="example-tag" id="exampleTag">Example</span>
+          <span class="bubble-label">Leana's Agent</span>
+        </div>
+      </div>
+
+      <div class="chips-row" id="chatChips"></div>
+
+      <form class="chat-form" id="chatForm">
+        <input class="chat-input" id="chatInput" type="text" autocomplete="off" />
+        <button class="chat-stop" id="chatStop" type="button" hidden>Stop</button>
+        <button class="chat-send" id="chatSend" type="submit">Send</button>
+      </form>
+      <div class="chat-note" id="chatNote" hidden></div>
+      <div class="chat-foot" id="chatFoot">Powered by Google Gemini, hosted by Leana &mdash; free for you to use. Speaks as her agent, not as Leana.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Capabilities</h2></div>
+    <div class="cap-group">
+      <div class="cap-label">Product &amp; Project</div>
+      <div class="chips">
+        <span class="chip">Requirements gathering</span><span class="chip">Problem framing</span><span class="chip">User personas</span><span class="chip">Process optimisation</span><span class="chip">Prioritisation</span><span class="chip">Stakeholder alignment</span><span class="chip">OKRs</span><span class="chip">Design Thinking (IBM cert.)</span>
+      </div>
+    </div>
+    <div class="cap-group">
+      <div class="cap-label">Methods</div>
+      <div class="chips">
+        <span class="chip">Agile / Scrum (IBM Agile Explorer cert.)</span><span class="chip">Roadmap planning</span>
+      </div>
+    </div>
+    <div class="cap-group">
+      <div class="cap-label">Data &amp; AI</div>
+      <div class="chips">
+        <span class="chip">LLM / RAG pipelines</span><span class="chip">LangChain</span><span class="chip">ChromaDB</span><span class="chip">ML (scikit-learn, Prophet)</span><span class="chip">Python</span><span class="chip">SQL (IBM cert.)</span><span class="chip">AI feasibility assessment</span>
+      </div>
+    </div>
+    <div class="cap-group">
+      <div class="cap-label">Tools</div>
+      <div class="chips">
+        <span class="chip">Streamlit</span><span class="chip">Plotly</span><span class="chip">GitHub</span><span class="chip">Hugging Face</span><span class="chip">Tableau</span><span class="chip">PowerPoint</span><span class="chip">HubSpot</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Shipped</h2><span class="section-note">AI side projects</span></div>
+
+    <div class="project feature">
+      <h3>LÉIA Intelligence Suite</h3>
+      <p>Three AI tools built end-to-end for a fictional Parisian luxury jewelry maison: a RAG chatbot supporting boutique advisors in clienteling, an analytics dashboard tracking revenue, client segments and advisor performance, and an ML suite for segmentation, piece recommendation and sales forecasting.</p>
+      <ul>
+        <li>Product approach: problem framing, 5 user personas, OKRs, success metrics, Jira backlog (epics, user stories, 3 sprints)</li>
+        <li>Stack: Python, Streamlit, LLaMA 3.3 70B, LangChain, ChromaDB, scikit-learn, Prophet</li>
+      </ul>
+      <div class="chips"><span class="chip">GitHub &amp; live demo on request</span></div>
+    </div>
+
+    <div class="mini-grid">
+      <div class="project">
+        <h3>HearMeOut</h3>
+        <p>Feasibility study for real-time speech-to-text for deaf and hard-of-hearing users: NLP/LLM/CV stack assessment, user needs analysis, ethical framework.</p>
+      </div>
+      <div class="project">
+        <h3>ML Spotify</h3>
+        <p>Song popularity prediction via feature engineering and supervised/unsupervised models.</p>
+      </div>
+      <div class="project">
+        <h3>Dissertation</h3>
+        <p>"The ethical implications of the humanisation of artificial intelligence."</p>
+        <div class="chips"><a class="chip" href="https://drive.google.com/file/d/1zPKrhNqnsV-H_k5bzQQtEl9SVKqacgQ3/view?usp=sharing" target="_blank" rel="noopener">Read it ↗</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Experience</h2></div>
+
+    <div class="job">
+      <div class="job-date">03/2026<br/>&mdash;<br/><span class="present">Present</span></div>
+      <div>
+        <div class="job-role">Key Account &amp; Project Manager</div>
+        <div class="job-org">French Chamber of Commerce &amp; Industry &mdash; Hong Kong</div>
+        <ul>
+          <li>Co-lead the Digital Innovation and AI &amp; Fintech committees: topic curation, speaker sourcing, workshop &amp; conference design</li>
+          <li>Run end-to-end delivery for Hong Kong Entrepreneur Day and the AI Symposium: scope, agenda, topics, coordination with external experts</li>
+          <li>Manage a portfolio of 200 corporate/individual members, connecting needs across the Hong Kong ecosystem</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-date">03/2024<br/>&ndash;<br/>10/2025</div>
+      <div>
+        <div class="job-role">Account Manager, AI &amp; Digital Transformation &mdash; ENGIE</div>
+        <div class="job-org">HeadMind Partners, Paris</div>
+        <ul>
+          <li>Ran discovery across multiple ENGIE digital/AI initiatives: pain points, constraints, scope, priorities</li>
+          <li>Scoped AI use cases into business cases &mdash; a RAG solution for HR knowledge access, a marketing automation tool &mdash; from pain point to brief to stakeholder presentation</li>
+          <li>Assessed product-ownership needs of a predictive AI feature on ENGIE's consumer app: roadmap maturity, team structure, delivery constraints</li>
+          <li>Coordinated 25 specialists (BA, PO, Cloud/Infra, AI PO) across concurrent projects on a &euro;7M account</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-date">01/2023<br/>&ndash;<br/>12/2023</div>
+      <div>
+        <div class="job-role">Innovation &amp; Strategy Consultant, Project Lead</div>
+        <div class="job-org">Technology Scouting for LVMH &mdash; IBM Studios Paris</div>
+        <ul>
+          <li>Owned end-to-end delivery of a strategic tech-scouting guide supporting Maisons' partnership strategy at CES 2024 (1,000+ exhibitors) and NRF 2024 (200+ exhibitors)</li>
+          <li>Built the prioritisation framework that filtered 1,000+ startups to a 20&ndash;30 shortlist per event: scoring criteria and weighting aligned to client priorities across Gen AI, AR/VR, customer &amp; employee experience</li>
+          <li>Defended recommendations directly to LVMH's innovation lab director across 3 review sessions</li>
+          <li>Coordinated 2 junior analysts in an Agile workflow; delivered ahead of schedule</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-date">01/2022<br/>&ndash;<br/>06/2022</div>
+      <div>
+        <div class="job-role">Marketing &amp; Operations Manager, Product &amp; Growth Focus</div>
+        <div class="job-org">Noja Fine Trade (Cheese Club), Hong Kong</div>
+        <ul>
+          <li>Owned a live Shopify e-commerce product end-to-end: catalogue, pricing, UX, order-to-delivery</li>
+          <li>Market/competitive research redefined value proposition and positioning</li>
+          <li>Findings drove a strategic repositioning &mdash; the company later merged WHAT'sIN and Cheese Club</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-date">01/2019<br/>&ndash;<br/>06/2019</div>
+      <div>
+        <div class="job-role">Partnership Manager</div>
+        <div class="job-org">IPOCAMP, Paris &mdash; blockchain platform for creative rights</div>
+        <ul>
+          <li>Secured 5 strategic partnerships, including La Maison des Artistes (3,500+ members)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><h2>Education</h2></div>
+    <div class="edu">
+      <div class="edu-item">
+        <h3>EMLYON Business School</h3>
+        <p>Master in Management, "Grande &Eacute;cole" &mdash; 2023</p>
+        <p>#12 worldwide, Masters in Management (FT 2025)</p>
+        <p>Coursework: ML fundamentals, AI for Business, Python</p>
+      </div>
+      <div class="edu-item">
+        <h3>Panth&eacute;on-Sorbonne (Paris 1)</h3>
+        <p>Master 1, Business Law &mdash; 2019</p>
+        <p>#17 worldwide, Law &amp; Legal Studies (QS)</p>
+      </div>
+    </div>
+    <div class="chips"><span class="chip">French &mdash; native</span><span class="chip">English &mdash; C1, TOEIC 945</span></div>
+  </section>
+
+  <footer>
+    <span>dardano.leana@gmail.com &nbsp;&middot;&nbsp; +852 6107 9016 &nbsp;&middot;&nbsp; Hong Kong</span>
+    <span class="mono">v2 &middot; Oct 2026</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var COPY = {
+    en: {
+      placeholder: "Ask about fit, a specific skill, or the story behind the CV…",
+      send: "Send",
+      stop: "Stop",
+      thinking: "Thinking",
+      rateLimited: "Hit a usage limit — give it a minute and try again.",
+      genericError: "Something went wrong on my end — try again?",
+      title: "Ask Her Agent",
+      recruiterLabel: "You",
+      leanaLabel: "Leana's Agent",
+      exampleTag: "Example",
+      chatSub: "Her AI agent — makes the case, gap by gap, using only what's true.",
+      chatFoot: "Powered by Google Gemini, hosted by Leana — free for you to use. Speaks as her agent, not as Leana.",
+      chips: [
+        "Paste a job description — pitch her for it",
+        "What's her biggest gap, and how would she close it?",
+        "What does she bring that a textbook PM wouldn't?",
+        "Why product after a law degree?"
+      ],
+      exampleQ: "Why would someone with a law degree make a good product manager?",
+      exampleA: "Because the core skill transfers directly: law trained her to frame a problem, build the argument, and defend a conclusion under scrutiny. You can see the same pattern at HeadMind Partners, where she sat between data scientists, POs and BAs on a €7M ENGIE account — she wasn't just observing, she was scoping their input into business cases a client could act on. If you want to stress-test it, ask her to walk you through the prioritisation framework she built that cut 1,000+ LVMH startup leads to a shortlist — same reasoning, different domain. I'd put her in front of you to hear it firsthand."
+    },
+    fr: {
+      placeholder: "Pose une question sur un poste, une compétence, ou ce qu'il y a derrière le CV…",
+      send: "Envoyer",
+      stop: "Stop",
+      thinking: "Je réfléchis",
+      rateLimited: "Limite d'usage atteinte — réessaie dans une minute.",
+      genericError: "Petit bug de mon côté — tu peux réessayer ?",
+      title: "Demande à son agent",
+      recruiterLabel: "Toi",
+      leanaLabel: "L'agent de Leana",
+      exampleTag: "Exemple",
+      chatSub: "Son agent IA — qui plaide son dossier, point par point, sans jamais rien inventer.",
+      chatFoot: "Fonctionne avec Google Gemini, hébergé par Leana — gratuit pour toi. Parle en tant qu'agent, pas en tant que Leana.",
+      chips: [
+        "Colle une fiche de poste — fais le pitch",
+        "Quel est son plus gros point faible, et comment elle le comblerait ?",
+        "Qu'apporte-t-elle qu'un PM classique n'aurait pas ?",
+        "Pourquoi le product après un droit ?"
+      ],
+      exampleQ: "Pourquoi un droit mènerait à un bon product manager ?",
+      exampleA: "Parce que la compétence de fond se transpose directement : le droit lui a appris à cadrer un problème, construire l'argumentaire et défendre une conclusion face à la contradiction. On voit le même schéma chez HeadMind Partners, où elle était entre data scientists, PO et BA sur un compte ENGIE de 7M€ — elle ne faisait pas qu'observer, elle transformait leurs besoins en business cases exploitables pour le client. Pour tester ça concrètement, demande-lui de détailler le framework de priorisation qu'elle a construit pour réduire 1 000+ startups à une shortlist pour LVMH — même raisonnement, autre domaine. Je la mets volontiers en face de toi pour l'entendre directement."
+    }
+  };
+
+  var state = { lang: "en", turns: [], busy: false, ctl: null };
+
+  var els = {
+    thread: document.getElementById("chatThread"),
+    form: document.getElementById("chatForm"),
+    input: document.getElementById("chatInput"),
+    send: document.getElementById("chatSend"),
+    stop: document.getElementById("chatStop"),
+    note: document.getElementById("chatNote"),
+    foot: document.getElementById("chatFoot"),
+    sub: document.getElementById("chatSub"),
+    title: document.getElementById("chatTitle"),
+    chips: document.getElementById("chatChips"),
+    langEn: document.getElementById("langEn"),
+    langFr: document.getElementById("langFr")
+  };
+
+  function c() { return COPY[state.lang]; }
+
+  function addBubble(role, text, opts) {
+    opts = opts || {};
+    var row = document.createElement("div");
+    row.className = "bubble-row " + role;
+    var label = document.createElement("div");
+    label.className = "bubble-label";
+    label.textContent = role === "user" ? c().recruiterLabel : c().leanaLabel;
+    var bubble = document.createElement("div");
+    bubble.className = "bubble";
+    if (opts.thinking) {
+      bubble.innerHTML = '<span class="thinking-dots">' + c().thinking + '</span>';
+    } else {
+      bubble.textContent = text;
+    }
+    row.appendChild(label);
+    row.appendChild(bubble);
+    els.thread.appendChild(row);
+    els.thread.scrollTop = els.thread.scrollHeight;
+    return bubble;
+  }
+
+  function renderExample() {
+    var container = els.thread;
+    container.innerHTML = "";
+    var qRow = document.createElement("div");
+    qRow.className = "bubble-row user";
+    qRow.innerHTML =
+      '<span class="bubble-label">' + c().recruiterLabel + "</span>" +
+      '<div class="bubble">' + c().exampleQ + "</div>";
+    var aRow = document.createElement("div");
+    aRow.className = "bubble-row assistant";
+    aRow.innerHTML =
+      '<span class="example-tag">' + c().exampleTag + "</span>" +
+      '<span class="bubble-label">' + c().leanaLabel + "</span>" +
+      '<div class="bubble">' + c().exampleA + "</div>";
+    container.appendChild(qRow);
+    container.appendChild(aRow);
+  }
+
+  function renderChips() {
+    els.chips.innerHTML = "";
+    c().chips.forEach(function (text) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "chip-btn";
+      btn.textContent = text;
+      btn.addEventListener("click", function () {
+        if (state.busy) return;
+        els.input.value = text;
+        els.form.requestSubmit ? els.form.requestSubmit() : sendMessage();
+      });
+      els.chips.appendChild(btn);
+    });
+  }
+
+  function renderStaticCopy() {
+    els.title.textContent = c().title;
+    els.input.placeholder = c().placeholder;
+    els.send.textContent = c().send;
+    els.stop.textContent = c().stop;
+    els.sub.textContent = c().chatSub;
+    els.foot.textContent = c().chatFoot;
+    renderChips();
+    if (state.turns.length === 0) renderExample();
+  }
+
+  function setLang(lang) {
+    state.lang = lang;
+    els.langEn.classList.toggle("active", lang === "en");
+    els.langFr.classList.toggle("active", lang === "fr");
+    renderStaticCopy();
+  }
+
+  function showNote(msg, warn) {
+    if (!msg) { els.note.hidden = true; return; }
+    els.note.hidden = false;
+    els.note.textContent = msg;
+    els.note.className = "chat-note" + (warn ? " warn" : "");
+  }
+
+  function setBusy(busy) {
+    state.busy = busy;
+    els.send.disabled = busy;
+    els.input.disabled = busy;
+    els.stop.hidden = !busy;
+  }
+
+  function errorCopy(code) {
+    if (code === "rate_limited") return c().rateLimited;
+    return c().genericError;
+  }
+
+  function sendMessage() {
+    var text = els.input.value.trim();
+    if (!text || state.busy) return;
+    showNote(null);
+    addBubble("user", text);
+    state.turns.push({ role: "user", content: text });
+    els.input.value = "";
+    setBusy(true);
+
+    var thinkingBubble = addBubble("assistant", "", { thinking: true });
+    var ctl = new AbortController();
+    state.ctl = ctl;
+    var started = false;
+    var full = "";
+
+    fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages: state.turns }),
+      signal: ctl.signal
+    }).then(function (resp) {
+      if (!resp.ok) {
+        return resp.json().catch(function () { return {}; }).then(function (j) {
+          throw { code: (j && j.error) || "upstream_error" };
+        });
+      }
+      var reader = resp.body.getReader();
+      var decoder = new TextDecoder();
+      var buf = "";
+      function pump() {
+        return reader.read().then(function (r) {
+          if (r.done) return;
+          buf += decoder.decode(r.value, { stream: true });
+          var idx;
+          while ((idx = buf.indexOf("\n\n")) !== -1) {
+            var raw = buf.slice(0, idx);
+            buf = buf.slice(idx + 2);
+            var dataLine = raw.split("\n").filter(function (l) { return l.indexOf("data:") === 0; })[0];
+            if (!dataLine) continue;
+            var json;
+            try { json = JSON.parse(dataLine.slice(5).trim()); } catch (e) { continue; }
+            if (json.delta) {
+              started = true;
+              full += json.delta;
+              thinkingBubble.classList.remove("thinking");
+              thinkingBubble.textContent = full;
+              els.thread.scrollTop = els.thread.scrollHeight;
+            } else if (json.error) {
+              throw { code: "upstream_error" };
+            }
+          }
+          return pump();
+        });
+      }
+      return pump();
+    }).then(function () {
+      if (full) {
+        state.turns.push({ role: "assistant", content: full });
+      } else {
+        thinkingBubble.parentElement.remove();
+        showNote(errorCopy("empty_completion"), true);
+      }
+    }).catch(function (err) {
+      if (err && err.name === "AbortError") {
+        if (!started) thinkingBubble.parentElement.remove();
+      } else {
+        thinkingBubble.parentElement.remove();
+        showNote(errorCopy(err && err.code), true);
+      }
+    }).finally(function () {
+      setBusy(false);
+      state.ctl = null;
+    });
+  }
+
+  els.form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    sendMessage();
+  });
+  els.stop.addEventListener("click", function () {
+    if (state.ctl) state.ctl.abort();
+  });
+  els.langEn.addEventListener("click", function () { setLang("en"); });
+  els.langFr.addEventListener("click", function () { setLang("fr"); });
+
+  renderStaticCopy();
+  setBusy(false);
+})();
+</script>
+</body>
+</html>

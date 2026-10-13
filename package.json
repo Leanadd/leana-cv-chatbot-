@@ -1,0 +1,9 @@
+{
+  "name": "leana-cv-chatbot",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Leana Dardano's interactive CV with an AI agent that pitches her to recruiters.",
+  "engines": {
+    "node": ">=18"
+  }
+}
