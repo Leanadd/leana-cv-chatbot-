@@ -1,7 +1,7 @@
 const SYSTEM_PROMPT = require("../lib/context.js");
 
 const MODEL = "gemini-3.8-flash";
-const MAX_OUTPUT_TOKENS = 700;
+const MAX_OUTPUT_TOKENS = 900;
 const MAX_MESSAGES = 20; // last N turns kept (trims older history)
 const MAX_MESSAGE_CHARS = 4000;
 
@@ -98,7 +98,10 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: toGeminiContents(messages),
-        generationConfig: { maxOutputTokens: MAX_OUTPUT_TOKENS },
+        generationConfig: {
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          thinkingConfig: { thinkingBudget: 0 },
+        },
       }),
     });
   } catch (e) {
