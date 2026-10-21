@@ -84,6 +84,38 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  const debug = req.query && req.query.debug === "1";
+  const genConfig = {
+    maxOutputTokens: MAX_OUTPUT_TOKENS,
+    thinkingConfig: { thinkingBudget: 0 },
+  };
+
+  if (debug) {
+    // Temporary inspection path: non-streaming call, raw JSON back.
+    // Remove once the response shape is confirmed.
+    const debugUrl =
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      MODEL +
+      ":generateContent?key=" +
+      process.env.GEMINI_API_KEY;
+    try {
+      const r = await fetch(debugUrl, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: toGeminiContents(messages),
+          generationConfig: genConfig,
+        }),
+      });
+      const j = await r.json();
+      res.status(200).json(j);
+    } catch (e) {
+      res.status(502).json({ error: "debug_failed", message: String(e) });
+    }
+    return;
+  }
+
   const url =
     "https://generativelanguage.googleapis.com/v1beta/models/" +
     MODEL +
@@ -98,10 +130,7 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: toGeminiContents(messages),
-        generationConfig: {
-          maxOutputTokens: MAX_OUTPUT_TOKENS,
-          thinkingConfig: { thinkingBudget: 0 },
-        },
+        generationConfig: genConfig,
       }),
     });
   } catch (e) {
