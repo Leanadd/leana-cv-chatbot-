@@ -5,62 +5,41 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Leana Dardano</title>
 <meta name="description" content="Leana Dardano's interactive CV — read the background, then ask her AI agent anything that isn't on the page." />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='13' font-size='14'%3E%F0%9F%93%8B%3C/text%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23140f0b'/%3E%3Ctext x='8' y='11.5' font-family='Georgia,serif' font-style='italic' font-size='7' fill='%23c6a24c' text-anchor='middle'%3ELD%3C/text%3E%3C/svg%3E" />
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@300;400;500;600;700&display=swap');
 
+  /*
+    A deliberate single-theme palette — noir, ivoire, bordeaux, or.
+    Paris couture-house card colours: black stock, warm ivory ink,
+    a wine accent, a touch of brass. Kept constant regardless of the
+    visitor's system theme, the way a maison's stationery doesn't
+    switch palette at night.
+  */
   :root{
-    --ink:#1b1b1f;
-    --muted:#6f6d66;
-    --paper:#f2f1ec;
-    --surface:#fbfaf7;
-    --line:#ddd9d0;
-    --accent:#8a2740;
-    --accent-contrast:#fbf1f0;
-    --accent-soft:rgba(138,39,64,0.08);
-    --signal:#3c6a4e;
-    --signal-bg:rgba(60,106,78,0.12);
-    --chip-bg:#e7e4db;
-    --shadow:rgba(30,27,20,0.12);
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --ink:#ece8df;
-      --muted:#9f9c92;
-      --paper:#15161a;
-      --surface:#1b1c21;
-      --line:#33343a;
-      --accent:#d98aa0;
-      --accent-contrast:#1d0e12;
-      --accent-soft:rgba(217,138,160,0.12);
-      --signal:#7fbd9b;
-      --signal-bg:rgba(127,189,155,0.16);
-      --chip-bg:#24252b;
-      --shadow:rgba(0,0,0,0.5);
-    }
-  }
-  :root[data-theme="dark"]{
-    --ink:#ece8df;
-    --muted:#9f9c92;
-    --paper:#15161a;
-    --surface:#1b1c21;
-    --line:#33343a;
-    --accent:#d98aa0;
-    --accent-contrast:#1d0e12;
-    --accent-soft:rgba(217,138,160,0.12);
-    --signal:#7fbd9b;
-    --signal-bg:rgba(127,189,155,0.16);
-    --chip-bg:#24252b;
-    --shadow:rgba(0,0,0,0.5);
+    --ink:#f2e6d1;
+    --muted:#ab9c80;
+    --paper:#140f0b;
+    --surface:#1d160f;
+    --line:#3a2f21;
+    --accent:#c2415a;
+    --accent-contrast:#fbe8ec;
+    --accent-soft:rgba(194,65,90,0.14);
+    --signal:#c6a24c;
+    --signal-bg:rgba(198,162,76,0.14);
+    --chip-bg:#241c13;
+    --shadow:rgba(0,0,0,0.55);
   }
 
   *{box-sizing:border-box;}
-  html{color-scheme:light dark;}
+  html{color-scheme:dark;}
   body{
     margin:0;
-    background:var(--paper);
+    background:
+      radial-gradient(ellipse 1100px 650px at 50% -12%, #251c12 0%, var(--paper) 60%);
+    background-color:var(--paper);
     color:var(--ink);
-    font-family:"IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    font-family:"Jost", -apple-system, "Segoe UI", sans-serif;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
@@ -70,19 +49,37 @@
     padding:clamp(28px,6vw,64px) clamp(18px,5vw,24px) 80px;
   }
   h1,h2,h3{
-    font-family:"IBM Plex Serif", Georgia, "Times New Roman", serif;
+    font-family:"Bodoni Moda", Didot, Georgia, serif;
     font-weight:600;
     text-wrap:balance;
     margin:0;
   }
   .mono{
-    font-family:"IBM Plex Mono","SF Mono",Menlo,monospace;
+    font-family:"Jost",sans-serif;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .monogram{
+    width:50px;
+    height:50px;
+    border:1px solid var(--signal);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Bodoni Moda",serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:1.05rem;
+    letter-spacing:.02em;
+    color:var(--signal);
+    margin-bottom:20px;
   }
   a{color:var(--accent);}
 
   /* ---------- Header ---------- */
   .eyebrow{
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.72rem;
     letter-spacing:.09em;
     text-transform:uppercase;
@@ -95,7 +92,10 @@
   }
   .tagline{
     margin-top:10px;
-    font-size:1.08rem;
+    font-family:"Bodoni Moda",serif;
+    font-style:italic;
+    font-weight:400;
+    font-size:1.18rem;
     color:var(--muted);
     max-width:46ch;
   }
@@ -124,7 +124,7 @@
     border-radius:999px;
     padding:5px 12px;
     font-size:0.78rem;
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-weight:500;
   }
   @media (prefers-reduced-motion: no-preference){
@@ -149,7 +149,7 @@
   .section-note{
     font-size:0.78rem;
     color:var(--muted);
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     white-space:nowrap;
   }
 
@@ -166,7 +166,7 @@
   .cap-group{margin-bottom:18px;}
   .cap-group:last-child{margin-bottom:0;}
   .cap-label{
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.72rem;
     letter-spacing:.07em;
     text-transform:uppercase;
@@ -179,7 +179,7 @@
     border-radius:6px;
     padding:5px 10px;
     font-size:0.82rem;
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     color:var(--ink);
     white-space:nowrap;
     text-decoration:none;
@@ -218,7 +218,7 @@
   }
   .job:first-child{border-top:none;padding-top:0;}
   .job-date{
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.76rem;
     color:var(--muted);
     padding-top:3px;
@@ -272,7 +272,7 @@
     flex:none;
   }
   .lang-btn{
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.74rem;
     padding:6px 10px;
     background:transparent;
@@ -297,7 +297,7 @@
   .bubble-row.user{align-self:flex-end;align-items:flex-end;}
   .bubble-row.assistant{align-self:flex-start;align-items:flex-start;}
   .bubble-label{
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.68rem;
     letter-spacing:.06em;
     text-transform:uppercase;
@@ -315,7 +315,7 @@
   .bubble-row.assistant .bubble{background:var(--paper);border:1px solid var(--line);border-bottom-left-radius:4px;}
   .example-tag{
     display:inline-block;
-    font-family:"IBM Plex Mono",monospace;
+    font-family:"Jost",sans-serif;
     font-size:0.66rem;
     text-transform:uppercase;
     letter-spacing:.06em;
@@ -349,7 +349,7 @@
     border-radius:999px;
     padding:7px 13px;
     font-size:0.8rem;
-    font-family:"IBM Plex Sans",sans-serif;
+    font-family:"Jost",sans-serif;
     color:var(--ink);
     cursor:pointer;
   }
@@ -367,7 +367,7 @@
     border-radius:8px;
     padding:10px 13px;
     font-size:0.92rem;
-    font-family:"IBM Plex Sans",sans-serif;
+    font-family:"Jost",sans-serif;
     background:var(--paper);
     color:var(--ink);
   }
@@ -422,6 +422,7 @@
 <div class="wrap">
 
   <header>
+    <div class="monogram" aria-hidden="true">LD</div>
     <div class="eyebrow">Product Management · Product Ownership · Business Analysis · Project Management</div>
     <h1>Leana Dardano</h1>
     <p class="tagline">Four years turning problems into shipped product across consulting and tech, France ↔ Hong Kong. Open to the right project, product or mission &mdash; sector is secondary to impact.</p>
