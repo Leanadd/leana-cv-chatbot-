@@ -799,8 +799,6 @@
     var thinkingBubble = addBubble("assistant", "", { thinking: true });
     var ctl = new AbortController();
     state.ctl = ctl;
-    var started = false;
-    var full = "";
 
     fetch("/api/chat", {
       method: "POST",
@@ -808,50 +806,24 @@
       body: JSON.stringify({ messages: state.turns }),
       signal: ctl.signal
     }).then(function (resp) {
-      if (!resp.ok) {
-        return resp.json().catch(function () { return {}; }).then(function (j) {
-          throw { code: (j && j.error) || "upstream_error" };
-        });
-      }
-      var reader = resp.body.getReader();
-      var decoder = new TextDecoder();
-      var buf = "";
-      function pump() {
-        return reader.read().then(function (r) {
-          if (r.done) return;
-          buf += decoder.decode(r.value, { stream: true });
-          var idx;
-          while ((idx = buf.indexOf("\n\n")) !== -1) {
-            var raw = buf.slice(0, idx);
-            buf = buf.slice(idx + 2);
-            var dataLine = raw.split("\n").filter(function (l) { return l.indexOf("data:") === 0; })[0];
-            if (!dataLine) continue;
-            var json;
-            try { json = JSON.parse(dataLine.slice(5).trim()); } catch (e) { continue; }
-            if (json.delta) {
-              started = true;
-              full += json.delta;
-              thinkingBubble.classList.remove("thinking");
-              thinkingBubble.textContent = full;
-              els.thread.scrollTop = els.thread.scrollHeight;
-            } else if (json.error) {
-              throw { code: "upstream_error" };
-            }
-          }
-          return pump();
-        });
-      }
-      return pump();
-    }).then(function () {
-      if (full) {
-        state.turns.push({ role: "assistant", content: full });
+      return resp.json().catch(function () { return {}; }).then(function (j) {
+        if (!resp.ok) throw { code: (j && j.error) || "upstream_error" };
+        return j;
+      });
+    }).then(function (j) {
+      var text = (j && j.text) || "";
+      if (text) {
+        thinkingBubble.classList.remove("thinking");
+        thinkingBubble.textContent = text;
+        els.thread.scrollTop = els.thread.scrollHeight;
+        state.turns.push({ role: "assistant", content: text });
       } else {
         thinkingBubble.parentElement.remove();
         showNote(errorCopy("empty_completion"), true);
       }
     }).catch(function (err) {
       if (err && err.name === "AbortError") {
-        if (!started) thinkingBubble.parentElement.remove();
+        thinkingBubble.parentElement.remove();
       } else {
         thinkingBubble.parentElement.remove();
         showNote(errorCopy(err && err.code), true);

@@ -47,10 +47,6 @@ function toGeminiContents(messages) {
   }));
 }
 
-function sendEvent(res, payload) {
-  res.write(`data: ${JSON.stringify(payload)}\n\n`);
-}
-
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "method_not_allowed" });
@@ -84,42 +80,10 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const debug = req.query && req.query.debug === "1";
-  const genConfig = {
-    maxOutputTokens: MAX_OUTPUT_TOKENS,
-    thinkingConfig: { thinkingBudget: 0 },
-  };
-
-  if (debug) {
-    // Temporary inspection path: non-streaming call, raw JSON back.
-    // Remove once the response shape is confirmed.
-    const debugUrl =
-      "https://generativelanguage.googleapis.com/v1beta/models/" +
-      MODEL +
-      ":generateContent?key=" +
-      process.env.GEMINI_API_KEY;
-    try {
-      const r = await fetch(debugUrl, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-          contents: toGeminiContents(messages),
-          generationConfig: genConfig,
-        }),
-      });
-      const j = await r.json();
-      res.status(200).json(j);
-    } catch (e) {
-      res.status(502).json({ error: "debug_failed", message: String(e) });
-    }
-    return;
-  }
-
   const url =
     "https://generativelanguage.googleapis.com/v1beta/models/" +
     MODEL +
-    ":streamGenerateContent?alt=sse&key=" +
+    ":generateContent?key=" +
     process.env.GEMINI_API_KEY;
 
   let upstream;
@@ -130,7 +94,10 @@ module.exports = async function handler(req, res) {
       body: JSON.stringify({
         system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
         contents: toGeminiContents(messages),
-        generationConfig: genConfig,
+        generationConfig: {
+          maxOutputTokens: MAX_OUTPUT_TOKENS,
+          thinkingConfig: { thinkingBudget: 0 },
+        },
       }),
     });
   } catch (e) {
@@ -138,57 +105,28 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  if (!upstream.ok || !upstream.body) {
-    let detail = "";
-    try {
-      detail = (await upstream.text()).slice(0, 500);
-    } catch (e) {
-      // ignore
-    }
-    res.status(502).json({ error: "upstream_error", detail });
+  let payload;
+  try {
+    payload = await upstream.json();
+  } catch (e) {
+    res.status(502).json({ error: "upstream_error" });
     return;
   }
 
-  res.writeHead(200, {
-    "Content-Type": "text/event-stream; charset=utf-8",
-    "Cache-Control": "no-cache, no-transform",
-    Connection: "keep-alive",
-    "X-Accel-Buffering": "no",
-  });
-
-  const reader = upstream.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = "";
-  try {
-    for (;;) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      let idx;
-      while ((idx = buf.indexOf("\n\n")) !== -1) {
-        const rawEvent = buf.slice(0, idx);
-        buf = buf.slice(idx + 2);
-        const dataLine = rawEvent.split("\n").find((l) => l.indexOf("data:") === 0);
-        if (!dataLine) continue;
-        let parsed;
-        try {
-          parsed = JSON.parse(dataLine.slice(5).trim());
-        } catch (e) {
-          continue;
-        }
-        if (parsed.promptFeedback && parsed.promptFeedback.blockReason) {
-          sendEvent(res, { error: { type: "blocked" } });
-          continue;
-        }
-        const candidate = parsed.candidates && parsed.candidates[0];
-        const parts = candidate && candidate.content && candidate.content.parts;
-        const text = Array.isArray(parts) ? parts.map((p) => p.text || "").join("") : "";
-        if (text) sendEvent(res, { delta: text });
-      }
-    }
-  } catch (e) {
-    // connection dropped mid-stream — just end below
+  if (!upstream.ok) {
+    res.status(502).json({ error: "upstream_error", detail: JSON.stringify(payload).slice(0, 500) });
+    return;
   }
-  sendEvent(res, { done: true });
-  res.end();
+
+  if (payload.promptFeedback && payload.promptFeedback.blockReason) {
+    res.status(200).json({ text: "" });
+    return;
+  }
+
+  const candidate = payload.candidates && payload.candidates[0];
+  const parts = candidate && candidate.content && candidate.content.parts;
+  const text = Array.isArray(parts) ? parts.map((p) => p.text || "").join("") : "";
+  const truncated = candidate && candidate.finishReason === "MAX_TOKENS";
+
+  res.status(200).json({ text, truncated: !!truncated });
 };
