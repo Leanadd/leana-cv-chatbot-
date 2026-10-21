@@ -15,7 +15,7 @@ usage caps (see "Free-tier limits" below).
 - `index.html` — the whole page, plain HTML/CSS/JS, no build step.
 - `api/chat.js` — a Vercel serverless function. It holds the persona/rules
   prompt (`lib/context.js`) and your Gemini API key, forwards the
-  conversation to Gemini, and streams the answer back.
+  conversation to Gemini, and returns the answer.
 - `lib/context.js` — the one file to edit when a fact about you changes.
   It's the single source of truth the chat agent is allowed to use.
 
