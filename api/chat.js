@@ -64,6 +64,20 @@ module.exports = async function handler(req, res) {
     return;
   }
 
+  if (req.query && req.query.listmodels === "1") {
+    // Temporary inspection path: list available models and their quotas.
+    try {
+      const r = await fetch(
+        "https://generativelanguage.googleapis.com/v1beta/models?key=" + process.env.GEMINI_API_KEY
+      );
+      const j = await r.json();
+      res.status(200).json(j);
+    } catch (e) {
+      res.status(502).json({ error: "debug_failed", message: String(e) });
+    }
+    return;
+  }
+
   let body = req.body;
   if (typeof body === "string") {
     try {

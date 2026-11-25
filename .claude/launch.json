@@ -1,0 +1,9 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "live-site",
+      "url": "https://leana-cv-chatbot.vercel.app"
+    }
+  ]
+}
