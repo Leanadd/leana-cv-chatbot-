@@ -96,7 +96,6 @@ module.exports = async function handler(req, res) {
         contents: toGeminiContents(messages),
         generationConfig: {
           maxOutputTokens: MAX_OUTPUT_TOKENS,
-          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     });
