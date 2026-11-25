@@ -88,13 +88,17 @@ and run `vercel dev` locally with a `.env` file (copy `.env.example` to
 
 ## Free-tier limits
 
-- **Gemini** (`gemini-2.0-flash`, free tier): a per-minute and per-day
-  request cap that's generous for a personal CV chatbot (far more than a
-  realistic number of recruiters chatting with it at once). If you ever
-  hit the ceiling during a traffic spike, requests just get a normal
+- **Gemini** (`gemini-flash-lite-latest`, free tier): a per-minute and
+  per-day request cap that's generous for a personal CV chatbot (far more
+  than a realistic number of recruiters chatting with it at once). If you
+  ever hit the ceiling during a traffic spike, requests just get a normal
   "rate limited" error — nothing breaks, nothing bills you. Check current
   numbers any time at [ai.google.dev/pricing](https://ai.google.dev/pricing)
-  under "Free tier".
+  under "Free tier". Stick to a `-lite` model for the generous free quota —
+  the plain `flash` and `pro` tiers (especially newer ones) can carry a much
+  lower free daily cap, sometimes as low as ~20 requests/day, which is not
+  enough for real traffic. The `-latest` suffix also means this never
+  needs updating when Google retires a dated model id.
 - **Vercel** (Hobby plan): generous free bandwidth/invocations for this
   kind of low-traffic static site + one small function — no card needed
   either.

@@ -1,6 +1,6 @@
 const SYSTEM_PROMPT = require("../lib/context.js");
 
-const MODEL = "gemini-3.8-flash";
+const MODEL = "gemini-flash-lite-latest";
 const MAX_OUTPUT_TOKENS = 900;
 const MAX_MESSAGES = 20; // last N turns kept (trims older history)
 const MAX_MESSAGE_CHARS = 4000;
@@ -61,20 +61,6 @@ module.exports = async function handler(req, res) {
 
   if (!process.env.GEMINI_API_KEY) {
     res.status(500).json({ error: "server_misconfigured" });
-    return;
-  }
-
-  if (req.query && req.query.listmodels === "1") {
-    // Temporary inspection path: list available models and their quotas.
-    try {
-      const r = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models?key=" + process.env.GEMINI_API_KEY
-      );
-      const j = await r.json();
-      res.status(200).json(j);
-    } catch (e) {
-      res.status(502).json({ error: "debug_failed", message: String(e) });
-    }
     return;
   }
 
